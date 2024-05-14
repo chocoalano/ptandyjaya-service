@@ -3,6 +3,8 @@ import MasterToko from '../MasterToko'
 import User from './User'
 
 export default class UserToko extends BaseModel {
+  @column({ isPrimary: true })
+  public id: number
   @column()
   public master_toko_id: number
   @column()

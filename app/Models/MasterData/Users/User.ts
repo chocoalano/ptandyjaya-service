@@ -88,21 +88,37 @@ export default class User extends BaseModel {
   public dept: BelongsTo<typeof Dept>
 
   @manyToMany(() => UserGroup, {
+    localKey: 'id',
+    pivotForeignKey: 'user_id',
+    relatedKey: 'id',
+    pivotRelatedForeignKey: 'master_group_id',
     pivotTable: 'user_groups',
   })
   public user_groups: ManyToMany<typeof UserGroup>
 
   @manyToMany(() => UserGudang, {
+    localKey: 'id',
+    pivotForeignKey: 'user_id',
+    relatedKey: 'id',
+    pivotRelatedForeignKey: 'master_gudang_id',
     pivotTable: 'user_gudangs',
   })
   public user_gudang: ManyToMany<typeof UserGudang>
 
   @manyToMany(() => UserOffice, {
+    localKey: 'id',
+    pivotForeignKey: 'user_id',
+    relatedKey: 'id',
+    pivotRelatedForeignKey: 'master_office_id',
     pivotTable: 'user_offices',
   })
   public user_office: ManyToMany<typeof UserOffice>
 
   @manyToMany(() => MasterToko, {
+    localKey: 'id',
+    pivotForeignKey: 'user_id',
+    relatedKey: 'id',
+    pivotRelatedForeignKey: 'master_toko_id',
     pivotTable: 'user_tokos',
   })
   public user_toko: ManyToMany<typeof MasterToko>

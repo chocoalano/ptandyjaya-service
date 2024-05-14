@@ -3,6 +3,8 @@ import MasterGudang from '../MasterGudang'
 import User from './User'
 
 export default class UserGudang extends BaseModel {
+  @column({ isPrimary: true })
+  public id: number
   @column()
   public master_gudang_id: number
   @column()

@@ -3,6 +3,8 @@ import MasterOffice from '../MasterOffice'
 import User from './User'
 
 export default class UserOffice extends BaseModel {
+  @column({ isPrimary: true })
+  public id: number
   @column()
   public master_office_id: number
   @column()
@@ -12,6 +14,7 @@ export default class UserOffice extends BaseModel {
     foreignKey: 'master_office_id',
   })
   public office: BelongsTo<typeof MasterOffice>
+
   @belongsTo(() => User, {
     foreignKey: 'user_id',
   })

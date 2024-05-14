@@ -59,11 +59,14 @@ export default class UserOperations extends BaseRepository {
                     })
                     break;
                 case 'office':
-                    await UserOffice.updateOrCreate({
-                        user_id: $input.id
-                    }, {
-                        master_office_id: parseInt($input.work_location_master)
-                    })
+                    // await UserOffice.updateOrCreate({
+                    //     user_id: $input.id
+                    // }, {
+                    //     master_office_id: parseInt($input.work_location_master)
+                    // })
+                    await user
+                    .related('user_office')
+                    .sync([parseInt($input.work_location_master)])
                     break;
                 case 'toko':
                     await UserToko.updateOrCreate({

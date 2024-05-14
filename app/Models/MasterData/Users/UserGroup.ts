@@ -3,6 +3,8 @@ import MasterGroup from '../../Form/MasterGroup'
 import User from './User'
 
 export default class UserGroup extends BaseModel {
+  @column({ isPrimary: true })
+  public id: number
   @column()
   public master_group_id: number
   @column()

@@ -29,8 +29,12 @@ export default class UsersController {
             await this.operation.UserStore(payload)
             return response.send({ status: true, data: payload, msg: 'success' })
         } catch (error) {
+            console.log(error);
+            
             const err = errMsg(error)
-            return response.status(err!.status).send({ status: false, data: error, msg: err!.msg })
+            const stat = err?.status ? err.status : 500
+            const msg = err?.msg ? err.msg : 'errors!'
+            return response.status(stat).send({ status: false, data: error, msg: msg })
         }
     }
 
