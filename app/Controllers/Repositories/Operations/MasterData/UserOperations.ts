@@ -101,8 +101,6 @@ export default class UserOperations extends BaseRepository {
     }
 
     async UserUpdate(id:number, input:any){
-        console.log(input);
-        
         const user = await User.findOrFail(id)
         user.role_id = input.role_id
         user.dept_id = input.dept_id
