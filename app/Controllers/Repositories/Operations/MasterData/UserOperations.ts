@@ -31,7 +31,7 @@ export default class UserOperations extends BaseRepository {
                     .preload('roles').preload('dept').paginate(page, limit < 5 ? count!.$extras.total : limit)
     }
 
-    async UserStore($input: { avatar: { extname: any; }; nik: string; role_id: number; dept_id: number; name: string; email: string | null; password: string; activation: string; work_location: string; saldo_cuti: number; hp: string; status: string; tgl_join: Date; limit_kasbon: number; total_gaji_perbulan: number; id: any; work_location_master: string; }){
+    async UserStore($input: any){
         UploadFile($input.avatar, $input.nik, 'uploads/avatar-users')
         const user = new User()
         user.role_id = $input.role_id
