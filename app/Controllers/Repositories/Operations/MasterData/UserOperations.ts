@@ -101,6 +101,8 @@ export default class UserOperations extends BaseRepository {
     }
 
     async UserUpdate(id:number, input:any){
+        console.log(input);
+        
         const user = await User.findOrFail(id)
         user.role_id = input.role_id
         user.dept_id = input.dept_id
@@ -108,6 +110,12 @@ export default class UserOperations extends BaseRepository {
         user.email = input.email != null ? input.email : ''
         user.nik = input.nik
         user.activation = input.activation
+        if (input.password) {
+            user.password = input.password.password
+        }
+        if (input.avatar) {
+            user.avatar = input.avatar
+        }
         user.work_location = input.work_location
         user.saldo_cuti = input.saldo_cuti
         user.hp = input.hp
@@ -146,6 +154,18 @@ export default class UserOperations extends BaseRepository {
     async UserDelete(id:number){
         const user = await User.findOrFail(id)
         if (user) {
+            switch (user.work_location) {
+                case 'office':
+                    await (await UserOffice.findByOrFail('user_id', user.id)).delete()
+                    break;
+                case 'gudang':
+                    await (await UserGudang.findByOrFail('user_id', user.id)).delete()
+                    break;
+            
+                default:
+                    await (await UserToko.findByOrFail('user_id', user.id)).delete()
+                    break;
+            }
             UnlinkFile(user.avatar, 'uploads/avatar-users')
             await user.delete()
             return user

@@ -24,13 +24,10 @@ export default class UsersController {
         try {
             await bouncer.with('UserPolicy').authorize('create')
             const payload = await request.validate(UserValidatorStore)
-            payload['tgl_join'] = request.input('tgl_join') ? request.input('tgl_join') : null
             payload['work_location_master'] = request.input('work_location_master')
             await this.operation.UserStore(payload)
             return response.send({ status: true, data: payload, msg: 'success' })
         } catch (error) {
-            console.log(error);
-            
             const err = errMsg(error)
             const stat = err?.status ? err.status : 500
             const msg = err?.msg ? err.msg : 'errors!'
@@ -65,11 +62,13 @@ export default class UsersController {
             }
             payload['id'] = request.param('id')
             payload['work_location_master'] = request.input('work_location_master')
-            payload['tgl_join'] = request.input('tgl_join') ? request.input('tgl_join') : null
             await this.operation.UserUpdate(request.param('id'), payload)
             return response.send({ status: true, data: payload, msg: 'success' })
         } catch (error) {
-            return response.status(error.status).send({ status: false, data: error, msg: 'error' })
+            const err = errMsg(error)
+            const stat = err?.status ? err.status : 500
+            const msg = err?.msg ? err.msg : 'errors!'
+            return response.status(stat).send({ status: false, data: error, msg: msg })
         }
     }
 

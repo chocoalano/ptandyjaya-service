@@ -18,7 +18,6 @@ export class UserValidatorStore extends Messages {
     ]),
     activation: schema.enum(['true', 'false']),
     avatar: schema.file({
-      size: '2mb',
       extnames: ['jpg', 'png'],
     }),
     work_location: schema.enum(['office', 'gudang', 'toko']),
@@ -28,7 +27,7 @@ export class UserValidatorStore extends Messages {
       rules.maxLength(13),
     ]),
     status: schema.string(),
-    // tgl_join: schema.date({ format: 'yyyy-MM-dd' }),
+    tgl_join: schema.date(),
     limit_kasbon: schema.number(),
     total_gaji_perbulan: schema.number(),
   })
@@ -64,7 +63,6 @@ export class AvatarValidator extends Messages {
   }
   public schema = schema.create({
     avatar: schema.file({
-      size: '2mb',
       extnames: ['jpg', 'png'],
     }),
   })

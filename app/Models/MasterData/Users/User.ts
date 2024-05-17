@@ -49,8 +49,8 @@ export default class User extends BaseModel {
   @column()
   public status: string
   
-  @column()
-  public tgl_join: Date
+  @column.date()
+  public tgl_join: DateTime
 
   @column()
   public limit_kasbon: number
