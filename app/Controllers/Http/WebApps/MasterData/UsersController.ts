@@ -79,6 +79,8 @@ export default class UsersController {
             const user = await this.operation.UserDelete(request.param('id'))
             return response.send({ status: true, data: user, msg: 'success' })
         } catch (error) {
+            console.log(error);
+            
             return response.status(error.status).send({ status: false, data: error.messages, msg: 'error' })
         }
     }

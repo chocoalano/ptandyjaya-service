@@ -56,6 +56,10 @@ export default class User extends BaseModel {
   public limit_kasbon: number
   @column()
   public total_gaji_perbulan: number
+  @column()
+  public app_line: number
+  @column()
+  public app_mngr: number
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

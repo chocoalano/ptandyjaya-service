@@ -49,6 +49,8 @@ export default class UserOperations extends BaseRepository {
         user.tgl_join = $input.tgl_join
         user.limit_kasbon = $input.limit_kasbon
         user.total_gaji_perbulan = $input.total_gaji_perbulan
+        user.app_line = $input.app_line
+        user.app_mngr = $input.app_mngr
         if (await user.save()) {
             switch ($input.work_location) {
                 case 'gudang':
@@ -121,6 +123,8 @@ export default class UserOperations extends BaseRepository {
         user.tgl_join = input.tgl_join
         user.limit_kasbon = input.limit_kasbon
         user.total_gaji_perbulan = input.total_gaji_perbulan
+        user.app_line = input.app_line
+        user.app_mngr = input.app_mngr
         if (await user.save()) {
             switch (input.work_location) {
                 case 'gudang':
@@ -154,14 +158,23 @@ export default class UserOperations extends BaseRepository {
         if (user) {
             switch (user.work_location) {
                 case 'office':
-                    await (await UserOffice.findByOrFail('user_id', user.id)).delete()
+                    const del1 = await UserOffice.findBy('user_id', user.id)
+                    if (del1) {
+                        await del1.delete()
+                    }
                     break;
                 case 'gudang':
-                    await (await UserGudang.findByOrFail('user_id', user.id)).delete()
+                    const del2 = await UserGudang.findBy('user_id', user.id)
+                    if (del2) {
+                        await del2.delete()
+                    }
                     break;
             
                 default:
-                    await (await UserToko.findByOrFail('user_id', user.id)).delete()
+                    const del3 = await UserToko.findBy('user_id', user.id)
+                    if (del3) {
+                        await del3.delete()
+                    }
                     break;
             }
             UnlinkFile(user.avatar, 'uploads/avatar-users')
@@ -177,7 +190,8 @@ export default class UserOperations extends BaseRepository {
         const toko = await MasterToko.all()
         const office = await MasterOffice.all()
         const gudang = await MasterGudang.all()
-        return { roles, depts, toko, office, gudang }
+        const user = await User.all()
+        return { roles, depts, toko, office, gudang, user }
     }
 
     async UserApproval(auth){
