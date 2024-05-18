@@ -7,7 +7,7 @@ export default class MasterRoleOperations extends BaseRepository {
         super(Role);
     }
 
-    async deleted(id: number) {
+    async deletedRole(id: number) {
         const p = await RoleHasPermission.findBy('role_id', id)
         if (p) {
             await p.delete()

@@ -52,7 +52,7 @@ export default class RolesController {
     public async destroy({ bouncer, request, response }: HttpContextContract) {
         try {
             await bouncer.with('RolePolicy').authorize('delete')
-            const q = await this.operation.deleted(request.param('id'))
+            const q = await this.operation.deletedRole(request.param('id'))
             return response.send({ status: true, data: q, msg: 'success' })
         } catch (error) {
             return response.status(error.status).send(error)
