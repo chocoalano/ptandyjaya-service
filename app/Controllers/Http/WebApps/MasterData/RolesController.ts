@@ -55,6 +55,8 @@ export default class RolesController {
             const q = await this.operation.deletedRole(request.param('id'))
             return response.send({ status: true, data: q, msg: 'success' })
         } catch (error) {
+            console.log(error);
+            
             return response.status(error.status).send(error)
         }
     }

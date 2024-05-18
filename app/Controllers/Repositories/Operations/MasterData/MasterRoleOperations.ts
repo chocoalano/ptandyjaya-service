@@ -1,6 +1,6 @@
 import Role from "App/Models/MasterData/Role";
 import BaseRepository from "../../BaseRepository";
-import RoleHasPermission from "App/Models/Feature/RoleHasPermission";
+import Database from '@ioc:Adonis/Lucid/Database'
 
 export default class MasterRoleOperations extends BaseRepository {
     constructor() {
@@ -8,16 +8,12 @@ export default class MasterRoleOperations extends BaseRepository {
     }
 
     async deletedRole(id: number) {
-        const p = await RoleHasPermission.findBy('role_id', id)
-        if (p) {
-            await p.delete()
-            const r = await Role.find(id)
-            if (r) {
-                await r.delete()
-                return r
-            }
-            return null
+        try {
+            await Database.from('role_has_permissions').where('role_id', id).delete()
+            const q = await Role.query().where('id', id).delete()
+            return q
+        } catch (error) {
+            throw error
         }
-        return null
     }
 }
