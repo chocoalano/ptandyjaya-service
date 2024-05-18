@@ -11,6 +11,8 @@ import MasterToko from "App/Models/MasterData/MasterToko";
 import MasterOffice from "App/Models/MasterData/MasterOffice";
 import MasterGudang from "App/Models/MasterData/MasterGudang";
 import UserGroup from "App/Models/MasterData/Users/UserGroup";
+import MasterGroup from "App/Models/Form/MasterGroup";
+import JadwalGroup from "App/Models/Form/JadwalGroup";
 
 export default class UserOperations extends BaseRepository {
     constructor() {
@@ -155,6 +157,15 @@ export default class UserOperations extends BaseRepository {
 
     async UserDelete(id:number){
         const user = await User.findOrFail(id)
+        const ms_group = await MasterGroup.findBy('user_id_kepgroup', user.id)
+        if (ms_group) {
+            const us_group = await UserGroup.findBy('master_group_id', ms_group.id)
+            if (us_group) {
+                await JadwalGroup.query().where('master_group_id', ms_group.id).delete()
+                await us_group.delete()
+                await ms_group.delete()
+            }
+        }
         if (user) {
             switch (user.work_location) {
                 case 'office':
